@@ -1,26 +1,9 @@
 use std::net::SocketAddr;
 
 use axum::Router;
+use config::{Config, get_config};
 
-trait Config {
-    fn port_message_action(&self, port: u16);
-}
-
-struct DebugConfig;
-
-impl Config for DebugConfig {
-    fn port_message_action(&self, port: u16) {
-        println!("serve on http://localhost:{}", port)
-    }
-}
-
-struct HerokuConfig;
-
-impl Config for HerokuConfig {
-    fn port_message_action(&self, port: u16) {
-        println!("serve on https://antecedence.herokuapp.com:{}", port)
-    }
-}
+mod config;
 
 #[tokio::main]
 async fn main() {
@@ -37,14 +20,7 @@ async fn make_and_run_app() {
         .unwrap();
 }
 
-fn get_config() -> Box<dyn Config> {
-    if let Ok(value) = std::env::var("CONFIG") {
-        if value == "heroku" {
-            return Box::new(HerokuConfig);
-        }
-    }
-    Box::new(DebugConfig)
-}
+
 
 fn get_address(config: &dyn Config) -> SocketAddr {
     let port = std::env::var("PORT")
