@@ -23,11 +23,8 @@ async fn make_and_run_app() {
 
 
 fn get_address(config: &dyn Config) -> SocketAddr {
-    let port = std::env::var("PORT")
-        .unwrap_or_else(|_| "8080".to_owned())
-        .parse()
-        .expect("PORT must be a number");
-    config.port_message_action(port);
+    let port = config.port();
+    config.message(port);
     ([0, 0, 0, 0], port).into()
 }
 
