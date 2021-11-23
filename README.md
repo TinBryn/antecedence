@@ -1,6 +1,6 @@
 # Antecedence
 
-## <div style="text-align: right;">__*The act of going before*__</div>
+> ### The act of going before
 
 Antecedence is a small application for organising progress of tasks in a project. This is done via a
 number of estimation steps.
