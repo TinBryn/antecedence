@@ -3,20 +3,27 @@ use std::net::SocketAddr;
 use axum::Router;
 
 #[tokio::main]
-async fn main() {
+async fn main(){
+    make_and_run_app().await;
+}
+
+async fn make_and_run_app() {
     let app = Router::new().route("/", axum::routing::get(index));
-
-    let port = std::env::var("PORT")
-        .unwrap_or_else(|_| "8080".to_owned())
-        .parse()
-        .expect("PORT must be a number");
-
-    let addr = SocketAddr::from(([0,0,0,0], port));
-    println!("serve from http://localhost:{}", port);
+    let addr = get_address();
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await
         .unwrap();
+}
+
+fn get_address() -> SocketAddr {
+    let port = std::env::var("PORT")
+        .unwrap_or_else(|_| "8080".to_owned())
+        .parse()
+        .expect("PORT must be a number");
+    let addr = SocketAddr::from(([0,0,0,0], port));
+    println!("serve from http://localhost:{}", port);
+    addr
 }
 
 /// Test with just a static "Hello, World!" string
