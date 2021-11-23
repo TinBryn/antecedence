@@ -1,5 +1,9 @@
 [package]
 name = "antecedence"
+license = "MIT"
+license-file = "LICENSE"
+authors = ["Kieran Griffiths <20491633@student.uwa.edu.au>"]
+repository = "https://github.com/TinBryn/antecedence.git"
 version = "0.1.0"
 edition = "2021"
 
