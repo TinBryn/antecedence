@@ -1,47 +1,25 @@
+use std::path::Path;
+
+mod heroku;
+use heroku::config as heroku_cfg;
+mod debug;
+use debug::config as debug_cfg;
+
+/// What a configuration will need to do or provide
 pub trait Config {
-    fn message(&self, port: u16);
+    /// Provide some message to the user, such as a link to the server
+    fn message(&self);
+    /// Get the port number to use, either from environment variable or hard coded
     fn port(&self) -> u16;
-}
-
-pub struct DebugConfig;
-
-impl Config for DebugConfig {
-    fn message(&self, port: u16) {
-        println!("serve on http://localhost:{}", port)
-    }
-    fn port(&self) -> u16 {
-        8080
-    }
-}
-
-pub struct HerokuConfig {
-    port: u16,
-}
-
-impl HerokuConfig {
-    pub fn new() -> Self {
-        let port: u16 = std::env::var("PORT")
-            .expect("Heroku should have PORT variable")
-            .parse()
-            .expect("PORT should be a number");
-        HerokuConfig { port }
-    }
-}
-
-impl Config for HerokuConfig {
-    fn message(&self, port: u16) {
-        println!("serve on https://antecedence.herokuapp.com:{}", port)
-    }
-    fn port(&self) -> u16 {
-        self.port
-    }
+    /// The url to get a database from
+    fn database_url(&self) -> &Path;
 }
 
 pub fn get_config() -> Box<dyn Config> {
     if let Ok(value) = std::env::var("CONFIG") {
         if value == "heroku" {
-            return Box::new(HerokuConfig::new());
+            return heroku_cfg();
         }
     }
-    Box::new(DebugConfig)
+    debug_cfg()
 }

@@ -1,7 +1,6 @@
 [package]
 name = "antecedence"
 license = "MIT"
-license-file = "LICENSE"
 authors = ["Kieran Griffiths <20491633@student.uwa.edu.au>"]
 repository = "https://github.com/TinBryn/antecedence.git"
 version = "0.1.0"
@@ -10,5 +9,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-axum = "0.3.4"
-tokio = {version = "*", features = ["full"]}
+axum = "0.4.2"
+tokio = { version = "1.14.0", features = ["full"] }
+rusqlite = "0.26.3"
