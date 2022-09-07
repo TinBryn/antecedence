@@ -4,6 +4,8 @@ mod heroku;
 use heroku::config as heroku_cfg;
 mod debug;
 use debug::config as debug_cfg;
+mod render;
+use render::config as render_cfg;
 
 /// What a configuration will need to do or provide
 pub trait Config {
@@ -16,10 +18,12 @@ pub trait Config {
 }
 
 pub fn get_config() -> Box<dyn Config> {
-    if let Ok(value) = std::env::var("CONFIG") {
-        if value == "heroku" {
-            return heroku_cfg();
-        }
+    match std::env::var("CONFIG").as_deref() {
+        Ok(value) => match value {
+            "heroku" => heroku_cfg(),
+            "render" => render_cfg(),
+            _ => debug_cfg(),
+        },
+        Err(_) => debug_cfg(),
     }
-    debug_cfg()
 }
