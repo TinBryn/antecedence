@@ -12,3 +12,4 @@ edition = "2021"
 axum = "0.4.4"
 tokio = { version = "1.15.0", features = ["full"] }
 rusqlite = "0.26.3"
+dotenv = "0.15.0"

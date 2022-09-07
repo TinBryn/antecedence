@@ -18,6 +18,8 @@ struct Person {
 }
 
 async fn run() {
+    #[cfg(debug)]
+    dotenv::dotenv().ok();
     let config = get_config();
 
     database_example().unwrap();

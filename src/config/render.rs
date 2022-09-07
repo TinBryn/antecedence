@@ -24,7 +24,7 @@ pub fn config() -> Box<dyn Config> {
 
 impl Config for Render {
     fn message(&self) {
-        println!("serve on https://antecedence.onrender.com/:{}", self.port)
+        println!("serve on https://antecedence.onrender.com:{}", self.port)
     }
     fn port(&self) -> u16 {
         self.port

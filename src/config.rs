@@ -18,7 +18,7 @@ pub trait Config {
 }
 
 pub fn get_config() -> Box<dyn Config> {
-    match std::env::var("CONFIG").as_deref() {
+    match dbg!(std::env::var("CONFIG").as_deref()) {
         Ok(value) => match value {
             "heroku" => heroku_cfg(),
             "render" => render_cfg(),
